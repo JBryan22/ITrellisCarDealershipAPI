@@ -10,6 +10,7 @@ namespace ITrellisCarDealershipAPI.Services
     public class CarService : ICarService
     {
         private readonly CarDealershipDBContext _db;
+        private readonly int LowMileThreshhold = 3000;
 
         public CarService(CarDealershipDBContext db)
         {
@@ -27,6 +28,11 @@ namespace ITrellisCarDealershipAPI.Services
                 query = query.Where(c => c.color == carQuery.Color);
             }
 
+            if (carQuery.Price != null)
+            {
+                query = query.Where(c => c.price <= carQuery.Price);
+            }
+
             if (carQuery.HasSunroof != null)
             {
                 query = query.Where(c => c.hasSunroof == carQuery.HasSunroof);
@@ -39,7 +45,13 @@ namespace ITrellisCarDealershipAPI.Services
 
             if (carQuery.HasLowMiles != null)
             {
-                query = query.Where(c => c.hasLowMiles == carQuery.HasLowMiles);
+                if (carQuery.HasLowMiles == true)
+                {
+                    query = query.Where(c => c.miles <= LowMileThreshhold);
+                } else
+                {
+                    query = query.Where(c => c.miles > LowMileThreshhold);
+                }
             }
 
             if (carQuery.HasPowerWindows != null)

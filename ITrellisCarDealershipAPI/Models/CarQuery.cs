@@ -8,6 +8,7 @@ namespace ITrellisCarDealershipAPI.Models
     public class CarQuery
     {
         public string Color { get; set; }
+        public int? Price { get; set; }
         public bool? HasSunroof { get; set; }
         public bool? IsFourWheelDrive { get; set; }
         public bool? HasLowMiles { get; set; }
